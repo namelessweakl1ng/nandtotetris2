@@ -1,0 +1,105 @@
+function Bar.new 0
+push constant 4
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 1
+push argument 2
+pop this 2
+push constant 500
+push this 1
+sub
+pop this 0
+push argument 1
+pop this 3
+push pointer 0
+return
+function Bar.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Bar.draw 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+push constant 0
+push this 0
+push this 1
+add
+push this 3
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push this 3
+push this 2
+add
+push this 0
+push this 1
+add
+push constant 255
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Bar.erase 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+push constant 0
+push this 0
+push this 1
+add
+push this 3
+call Screen.drawRectangle 4
+pop temp 0
+push this 0
+push this 3
+push this 2
+add
+push this 0
+push this 1
+add
+push constant 255
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Bar.scroll 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Bar.erase 1
+pop temp 0
+push this 0
+push argument 1
+sub
+pop this 0
+push this 0
+push constant 0
+lt
+push this 0
+or
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 1
+return
+label IF_FALSE0
+push pointer 0
+call Bar.draw 1
+pop temp 0
+push constant 0
+return

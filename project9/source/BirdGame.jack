@@ -1,0 +1,164 @@
+/**
+ * Implements the game.
+ */
+
+class BirdGame {
+
+   field Bird bird;
+   field Bar bar;
+   field int speed, grav, score, barkind, width, openW;
+   field String easystr, prestr, poststr;
+
+
+   /** Constructs a new Bird Game. */
+   constructor BirdGame new() {
+
+      let speed = 1;
+      let grav = 1;
+      let score = 0;
+      let barkind = 0;
+      let width = 13;
+      let openW = 100;
+
+      // Build strings properly
+      let easystr = String.new(11);
+      do easystr.appendChar(32); // space
+      do easystr.appendChar(77); // M
+      do easystr.appendChar(79); // O
+      do easystr.appendChar(68); // D
+      do easystr.appendChar(69); // E
+      do easystr.appendChar(58); // :
+      do easystr.appendChar(32); // space
+      do easystr.appendChar(69); // E
+      do easystr.appendChar(97); // a
+      do easystr.appendChar(115); // s
+      do easystr.appendChar(121); // y
+
+      let prestr = String.new(8);
+      do prestr.appendChar(32);
+      do prestr.appendChar(83);
+      do prestr.appendChar(99);
+      do prestr.appendChar(111);
+      do prestr.appendChar(114);
+      do prestr.appendChar(101);
+      do prestr.appendChar(58);
+      do prestr.appendChar(32);
+
+      let poststr = String.new(13);
+      do poststr.appendChar(32);
+      do poststr.appendChar(66);
+      do poststr.appendChar(97);
+      do poststr.appendChar(114);
+      do poststr.appendChar(115);
+      do poststr.appendChar(32);
+      do poststr.appendChar(112);
+      do poststr.appendChar(97);
+      do poststr.appendChar(115);
+      do poststr.appendChar(115);
+      do poststr.appendChar(101);
+      do poststr.appendChar(100);
+      do poststr.appendChar(46);
+
+      let bird = Bird.new(256,128,5);
+      let bar = Bar.new(width, 80, openW);
+
+      return this;
+   }
+
+
+   /** Disposes this game. */
+   method void dispose() {
+      do bird.dispose();
+      do bar.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+
+   /** Moves the bars to the left. */
+   method void scroll() {
+      do bar.scroll(speed);
+      return;
+   }
+
+
+   /** Runs the game */
+   method void run() {
+
+      var char key;
+      var boolean exit;
+      var int status;
+
+      let exit = false;
+
+      do Output.printString("Use SPACE to jump, Q to quit");
+      do Output.println();
+      do Sys.wait(2000);
+
+      while (~exit) {
+
+         do bird.draw();
+         do bar.draw();
+
+         let key = Keyboard.keyPressed();
+
+         if (key = 32) {
+            do bird.jump(2);
+         }
+
+         if (key = 113) {
+            let exit = true;
+         }
+
+         let status = bar.scroll(speed);
+
+         if (status = 1) {
+
+            do bar.erase();
+            do bar.dispose();
+
+            if (barkind = 0) {
+               let bar = Bar.new(width, 45, openW);
+               let barkind = 1;
+            }
+            else {
+               if (barkind = 1) {
+                  let bar = Bar.new(width, 100, openW);
+                  let barkind = 2;
+               }
+               else {
+                  if (barkind = 2) {
+                     let bar = Bar.new(width, 75, openW);
+                     let barkind = 3;
+                  }
+                  else {
+                     let bar = Bar.new(width, 150, openW);
+                     let barkind = 0;
+                  }
+               }
+            }
+
+            let openW = openW - 5;
+            if (openW < 12) {
+               let openW = 12;
+            }
+
+            let score = score + 1;
+            do bar.draw();
+         }
+
+         do bird.gravity(grav);
+
+         do Output.moveCursor(0,0);
+         do Output.printString(easystr);
+         do Output.println();
+         do Output.printString(prestr);
+         do Output.printInt(score);
+         do Output.printString(poststr);
+
+         do Sys.wait(8);
+      }
+
+      return;
+   }
+}

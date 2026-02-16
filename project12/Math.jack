@@ -1,0 +1,59 @@
+class Math {
+
+    function int abs(int x) {
+        if (x < 0) { return -x; }
+        return x;
+    }
+
+    function int max(int a, int b) {
+        if (a > b) { return a; }
+        return b;
+    }
+
+    function int min(int a, int b) {
+        if (a < b) { return a; }
+        return b;
+    }
+
+    function int multiply(int x, int y) {
+        var int i, sum;
+        let i = 0;
+        let sum = 0;
+
+        while (i < y) {
+            let sum = sum + x;
+            let i = i + 1;
+        }
+        return sum;
+    }
+
+    function int divide(int x, int y) {
+        var int count, sum;
+
+        let count = 0;
+        let sum = x;
+
+        // while (sum >= y)
+        while (~(sum < y)) {
+            let sum = sum - y;
+            let count = count + 1;
+        }
+
+        return count;
+    }
+
+    function int sqrt(int x) {
+        var int r, square;
+
+        let r = 0;
+        let square = 0;
+
+        // while (square <= x)
+        while (~(square > x)) {
+            let r = r + 1;
+            let square = Math.multiply(r, r);
+        }
+
+        return r - 1;
+    }
+}

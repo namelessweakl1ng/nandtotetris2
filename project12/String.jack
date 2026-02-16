@@ -1,0 +1,66 @@
+class String {
+
+    field Array buffer;
+    field int length;
+
+    constructor String new(int maxLength) {
+        let buffer = Array.new(maxLength);
+        let length = 0;
+        return this;
+    }
+
+    method void dispose() {
+        do buffer.dispose();
+        return;
+    }
+
+    method int length() {
+        return length;
+    }
+
+    method char charAt(int i) {
+        return buffer[i];
+    }
+
+    method void setCharAt(int i, char c) {
+        let buffer[i] = c;
+        return;
+    }
+
+    method void appendChar(char c) {
+        let buffer[length] = c;
+        let length = length + 1;
+        return;
+    }
+
+    method void eraseLastChar() {
+        if (length > 0) {
+            let length = length - 1;
+        }
+        return;
+    }
+
+    method void backSpace() {
+        do eraseLastChar();
+        return;
+    }
+
+    // REQUIRED by tests
+    method void newLine() {
+        do appendChar(13);   // carriage return
+        return;
+    }
+
+    method int intValue() {
+        var int i, value;
+
+        let i = 0;
+        let value = 0;
+
+        while (i < length) {
+            let value = value * 10 + (buffer[i] - 48);
+            let i = i + 1;
+        }
+        return value;
+    }
+}

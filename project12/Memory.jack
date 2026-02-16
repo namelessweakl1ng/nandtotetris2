@@ -1,0 +1,29 @@
+class Memory {
+
+    static int next;
+
+    function void init() {
+        let next = 2048;
+        return;
+    }
+
+    function int peek(int address) {
+        return address[0];
+    }
+
+    function void poke(int address, int value) {
+        let address[0] = value;
+        return;
+    }
+
+    function int alloc(int size) {
+        var int base;
+        let base = next;
+        let next = next + size;
+        return base;
+    }
+
+    function void deAlloc(Array o) {
+        return;
+    }
+}
